@@ -1,0 +1,25 @@
+extends layout
+
+block content
+
+  
+
+  select#games
+    each game, i in games
+      option(value="#{game.slug}")= game.title
+
+  <select id="numPlayers">
+  <option></option>
+  <option value="2">2</option>
+  <option value="3">3</option>
+  <option value="4">4</option>
+  </select>
+
+  <div id="points">
+
+
+  </div>
+
+  <input type="date" name="game_date">
+
+  script(src='javascripts/builder.js')
