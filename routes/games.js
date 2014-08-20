@@ -85,12 +85,19 @@ router.post('/update/:slug', function(req, res) {
 router.get('/:slug', function(req, res) {
   var collection = req.db.get('games');
 
+	var isJson = req.headers.accept.indexOf('application/json') >=0 ? true : false;
+
   collection.find({ 'slug' : req.params.slug }, {},function(e,games){
-  	console.log(games[0]);
+
+  	if(isJson) {
+  		res.send(JSON.stringify( games[0] ));
+  	} else {
+
       res.render('games-show', {
           game : games[0],
           title: games[0].title
       });
+    }
   });
 });
 

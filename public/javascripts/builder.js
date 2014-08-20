@@ -3,6 +3,24 @@
 
   var rows = ['Player', 'City', 'Military', 'Treasury', 'Wonder', 'Civic', 'Commerce', 'Guilds', 'Science', 'Total'];
 
+  $("#games").change(function() {
+    var request = $.ajax({
+      url: "/games/"+this.value,
+      type: "GET",
+      dataType: "json"
+    });
+     
+    request.done(function( data ) {
+      if(data.slug != undefined) {
+        var html = '<option>Players</option>';
+        for(var x = parseFloat(data.minPlayers); x <= parseFloat(data.maxPlayers);x++) {
+          html += '<option value="'+x+'">'+x+'</option>';
+        }
+        $("#numPlayers").html(html);
+      }
+    });
+  });
+
   $("#numPlayers").change(function() {
     $("#points").html('');
     var html = '';
