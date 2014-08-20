@@ -1,0 +1,8 @@
+extends layout
+
+block content
+  h1 #{game.title}
+  p Players: #{game.minPlayers} -     #{game.maxPlayers}
+
+
+  a(href="/games/update/#{game.slug}")= "Update"

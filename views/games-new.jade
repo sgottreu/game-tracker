@@ -2,3 +2,15 @@ extends layout
 
 block content
   h1="Add A Game"
+
+  form#formAddUser(name="adduser",method="post",action="/games/new")
+    div
+      input#inputTitle(type="text", placeholder="title", name="title")
+    div
+      input#inputUrl(type="text", placeholder="url", name="url")
+    div
+      input#inputMinPlayers(type="text", placeholder="minPlayers", name="minPlayers")
+    div
+      input#inputMaxPlayers(type="text", placeholder="maxPlayers", name="maxPlayers")
+    div
+      button#btnSubmit(type="submit") submit

@@ -2,3 +2,9 @@ extends layout
 
 block content
   h1="List of Games"
+
+  ul
+  each game, i in games
+    li
+      a(href="/games/#{game.slug}")= game.title
+
