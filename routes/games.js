@@ -33,16 +33,27 @@ router.post('/new', function(req, res) {
       "maxPlayers" : req.body.maxPlayers
   },
   function (err, doc) {
-      if (err) {
-          // If it failed, return error
-          res.send("There was a problem adding the information to the database.");
-      }
-      else {
-          // If it worked, set the header so the address bar doesn't still say /adduser
-          res.location("games");
-          // And forward to success page
-          res.redirect("/games");
-      }
+    if (err) {
+        // If it failed, return error
+        res.send("There was a problem adding the information to the database.");
+    }
+    else {
+        // If it worked, set the header so the address bar doesn't still say /adduser
+        res.location("games");
+        // And forward to success page
+        res.redirect("/games");
+    }
+  });
+});
+
+router.get('/instance/:slug', function(req, res) {
+  var collection = req.db.get('games');
+
+  collection.find({ 'slug' : req.params.slug }, {},function(e,games){
+      res.render('games-instance', {
+          "games" : games,
+          title: games[0].title
+      });
   });
 });
 
@@ -60,13 +71,36 @@ router.get('/update/:slug', function(req, res) {
 router.post('/update/:slug', function(req, res) {
   var collection = req.db.get('games');
 
+  var numScores = parseFloat(req.body.numScores);
+  var scoring = [];
+
+  if(numScores >= 0) {
+    for(var x=0;x<numScores;x++) {
+
+      var rules = (req.body.score_rule != undefined) ? buildRules(req.body.score_rule[x]) : [[]];
+
+      var points = (req.body.score_points != undefined) ? buildPoints(req.body.score_points[x]) : [[]];
+
+      var scoring_row = { 
+        title: req.body.score_title[x], 
+        slug: req.body.score_title[x].toLowerCase().replace(" ",'-'),
+        rules: rules, 
+        points: points 
+      };
+
+      scoring.push(scoring_row);
+    }
+  }
+
   collection.updateById( req.body._id,
   {
       "title" : req.body.title,
       "slug" : req.body.title.replace(" ", "-").toLowerCase(),
       "url" : req.body.url,
       "minPlayers" : req.body.minPlayers,
-      "maxPlayers" : req.body.maxPlayers
+      "maxPlayers" : req.body.maxPlayers,
+      "numScores": numScores,
+      "scoring": scoring
   },
   function (err, doc) {
       if (err) {
@@ -85,14 +119,11 @@ router.post('/update/:slug', function(req, res) {
 router.get('/:slug', function(req, res) {
   var collection = req.db.get('games');
 
-	var isJson = req.headers.accept.indexOf('application/json') >=0 ? true : false;
-
   collection.find({ 'slug' : req.params.slug }, {},function(e,games){
 
-  	if(isJson) {
+  	if(req.isJson) {
   		res.send(JSON.stringify( games[0] ));
   	} else {
-
       res.render('games-show', {
           game : games[0],
           title: games[0].title
@@ -104,3 +135,14 @@ router.get('/:slug', function(req, res) {
 module.exports = router;
 
 
+function buildRules(rules)
+{
+  var newRules = rules.split(';');
+  return newRules;
+}
+
+function buildPoints(points)
+{
+  var newPoints = points.split(';');
+  return newPoints;
+}

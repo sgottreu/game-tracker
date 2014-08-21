@@ -6,7 +6,6 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
-var users = require('./routes/users');
 var games = require('./routes/games');
 
 var app = express();
@@ -31,8 +30,23 @@ var db = monk('mongodb://game-tracker:3t8th52R7S*utr+mUtUc@kahana.mongohq.com:10
 
 // Make our db accessible to our router
 app.use(function(req,res,next){
-    req.db = db;
+    req.db = db;  
     next();
+});
+
+
+
+//Setting up for json
+app.use(function(req,res,next){
+  req.isJson = false;
+
+  if(req.url.substring(req.url.length-5, req.url.length) == '.json' 
+    || req.headers.accept.indexOf('application/json') >= 0) {
+      req.url = req.url.replace('.json', '');
+      req.isJson = true;
+      res.set('Content-Type', 'application/json');
+  }
+  next();
 });
 
 app.use('/', routes);

@@ -1,52 +1,49 @@
 (function($){
 
-
-  var rows = ['Player', 'City', 'Military', 'Treasury', 'Wonder', 'Civic', 'Commerce', 'Guilds', 'Science', 'Total'];
-
+  
   $("#games").change(function() {
-    var request = $.ajax({
-      url: "/games/"+this.value,
-      type: "GET",
-      dataType: "json"
-    });
-     
-    request.done(function( data ) {
-      if(data.slug != undefined) {
-        var html = '<option>Players</option>';
-        for(var x = parseFloat(data.minPlayers); x <= parseFloat(data.maxPlayers);x++) {
-          html += '<option value="'+x+'">'+x+'</option>';
-        }
-        $("#numPlayers").html(html);
-      }
-    });
+    getGameInfo(this.value);
   });
 
   $("#numPlayers").change(function() {
     $("#points").html('');
     var html = '';
     var iType = '';
+    var tabIndex = 0;
+    var numPlayers = $("#numPlayers").val();
 
-    $.each(rows, function(i, value) {
-      html += '<div><span class="'+value.toLowerCase()+'_label">'+value+'</span>';
-      for(var x =0; x < $("#numPlayers").val();x++) {
+    $.each(gameData.scoring, function(i, value) {
+      html += '<div><span class="'+value.slug+'_label">'+value.title+'</span>';
+
+      for(var x =0; x < numPlayers;x++) {
         iType = (i >= 1) ? 'tel' : 'text';
-        html += '<span class="'+value.toLowerCase()+x+'"><input type="'+iType+'" class="col'+x+'" id="'+value.toLowerCase()+x+'"></span>';
+        tabIndex = parseFloat(numPlayers)+4+(parseFloat(numPlayers) *x);
+
+        html += '<span class="'+value.slug+x+'">';
+        html += '<input type="'+iType+'" class="col'+x+'" tabIndex="'+tabIndex+'" data-cols="'+x+'" id="'+value.slug+x+'" name="'+value.slug+'"></span>';
       }
       html += "</div>";
     });
 
+    html += '<div><span></span>';
+    for(var x =0; x < $("#numPlayers").val();x++) {
+      html += '<span class="instance point_totals" id="points'+x+'"></span>';
+    }
+    html += "</div>";
+
     $("#points").html(html);
+
     for(x =0; x < $("#numPlayers").val();x++) {
       $(".col"+x).on({
         keyup: function() {
           var total = 0, step = 0;
 
           $.each($("."+$(this)[0].className), function(i, val) {
-            step = (i > 1 && i < 9 && !isNaN(parseFloat( $("#"+this.id).val())) )  ? parseFloat($("#"+this.id).val()) : 0; 
+            step = getPoints($("#"+this.id).val(),i);
             total += step;
           });
-
-          $("."+$(this)[0].className)[9].value = total;
+          var x = $(this).data('cols');
+          $("#points"+x).html(total);
         }
       });
     }
@@ -54,3 +51,61 @@
 
 
 })(jQuery);
+
+var gameData;
+
+function getGameInfo(slug) {
+    var request = $.ajax({
+      url: "/games/"+slug,
+      type: "GET",
+      dataType: "json"
+    });
+     
+    request.done(function( data ) {
+      if(data.slug != undefined) {
+        gameData = data;
+        var html = '<option>Players</option>';
+        for(var x = parseFloat(data.minPlayers); x <= parseFloat(data.maxPlayers);x++) {
+          html += '<option value="'+x+'">'+x+'</option>';
+        }
+        $("#numPlayers").html(html);
+      }
+    });
+}
+
+function getPoints(value, row)
+{
+  var rules = gameData.scoring[row].rules;
+  var points = gameData.scoring[row].points;
+
+  for(var x =0; x < rules.length;x++) {
+    if( !isNaN(parseFloat( rules[x] )) && parseFloat( rules[x] ) == parseFloat(value) ) {
+      return parseFloat(points[x]);
+    }
+    if(rules[x].substring(rules[x].length-1, rules[x].length) == '+') {
+      if(rules[x]=='+' && value != '') {
+        var eq = value+' '+points[0];
+        return eval(eq);
+      }
+
+      var incr = parseFloat(rules[x].replace("+",""));
+      if(parseFloat(value) >= incr) {
+        return parseFloat(points[x]);
+      }
+    }
+    if(rules[x].indexOf('..') >= 0) {
+      var range = rules[x].split("..");
+      for(var i = parseFloat(range[0]); i <= parseFloat(range[1]);i++) {
+        if(i.toString() == value) {
+          return parseFloat(points[x]);
+        }
+      }
+    }
+    if(rules[x]=='*' && value != '') {
+      var eq = value+' '+points[0];
+      return eval(eq);
+    }
+  }
+
+  return 0;
+}

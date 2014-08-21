@@ -9,3 +9,31 @@ a {
   width: 150px;
   display: inline-block;
 }
+.instance.point_totals {
+  min-height: 30px;
+}
+.score_label {
+  width: 150px;
+  display: inline-block;
+}
+.span.score_title,
+.span.score_rule {
+  display: inline-block;
+  width: 120px;
+  padding-right: 20px;
+}
+.score_title {
+  width: 100px;
+}
+.score_rule,
+.score_points {
+  width: 100px;
+}
+#scoringRulesBox {
+  margin-top: 20px;
+}
+@media (max-width: 600px) {
+  .scoring {
+    display: block;
+  }
+}

@@ -4,14 +4,34 @@ block content
   h1="Update Game"
 
   form#formAddUser(name="adduser",method="post",action="/games/update/#{games[0].slug}")
-    input#inputId(type="text", name="_id" value="#{games[0]._id}")
+    input#inputId(type="hidden", name="_id" value="#{games[0]._id}")
     div
+      label="Game Title"
       input#inputTitle(type="text", placeholder="title", name="title" value="#{games[0].title}")
     div
-      input#inputUrl(type="text", placeholder="url", name="url" value="#{games[0].url}")
+      label="Game URL"
+      input#inputUrl(type="url", placeholder="url", name="url" value="#{games[0].url}")
     div
-      input#inputMinPlayers(type="text", placeholder="minPlayers", name="minPlayers" value="#{games[0].minPlayers}")
+      label="minPlayers"
+      input#inputMinPlayers(type="number", placeholder="minPlayers", name="minPlayers" value="#{games[0].minPlayers}")
     div
-      input#inputMaxPlayers(type="text", placeholder="maxPlayers", name="maxPlayers" value="#{games[0].maxPlayers}")
+      label="maxPlayers"
+      input#inputMaxPlayers(type="number", placeholder="maxPlayers", name="maxPlayers" value="#{games[0].maxPlayers}")
     div
-      button#btnSubmit(type="submit") submit
+      label="Number of Scoring rows"
+      input#inputNumScores(type="number", placeholder="numScores", name="numScores" value="#{games[0].numScores || 0}")
+
+    div#scoringRulesBox
+
+    div
+      button#btnSubmit(type="submit" tabIndex="6") submit
+
+
+  script(src='/javascripts/scoring_rules.js')
+
+  script
+    | (function($){
+    |   createScoringRows( #{games[0].numScores || 0});
+    |   populateScoringRows('#{games[0].slug}', #{games[0].numScores || 0})
+    | })(jQuery);
+
