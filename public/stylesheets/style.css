@@ -5,9 +5,25 @@ body {
 a {
   color: #00b7ff;
 }
+div.left {
+  float: left;
+  display: inline-block;
+}
+div.left .hidden,
+.txt_field {
+  display: block;
+}
+#points span.hidden {
+  display: none;
+}
 #points span {
   width: 150px;
   display: inline-block;
+}
+#points span.scoring_label,
+#points .player_score_wrapper {
+  display: block;
+  min-height: 30px;
 }
 .instance.point_totals {
   min-height: 30px;
@@ -35,5 +51,11 @@ a {
 @media (max-width: 600px) {
   .scoring {
     display: block;
+  }
+  #points span.hidden {
+    display: block;
+  }
+  #points div.scoring_labels {
+    display: none;
   }
 }
