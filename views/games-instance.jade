@@ -2,20 +2,22 @@ extends layout
 
 block content
 
-  div
-    <input type="date" name="game_date">
+  form#formAddGameInstance(name="addInstance",method="post",action="/games/instance/#{games[0].slug}")
+    h2
+      | #{games[0].title}
+    div
+      <input type="date" name="game_date">
+      input(type="hidden" name="game_id" value="#{games[0]._id}")
 
-  div
-    select#games
-      each game, i in games
-        option(value="#{game.slug}")= game.title
+    div
+      <select id="numPlayers" name="numPlayers">
+      <option>Players</option>
+      </select>
 
-  div
-    <select id="numPlayers">
-    <option>Players</option>
-    </select>
+    div#points
 
-  div#points
+    div.submitBtn
+      button#btnSubmit(type="submit") submit
   
   script(src='/javascripts/builder.js')
 
