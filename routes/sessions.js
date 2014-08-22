@@ -8,7 +8,6 @@ router.get('/', function(req, res) {
 
   collection.find({}, {},function(e,sessions){
     req.db.get('games').find({}, {},function(e,games){
-      console.log(games);
       for( var x=0;x<sessions.length;x++) {
         for( var y=0;y<games.length;y++) {
           if(games[y]._id == sessions[x].game_id) {
@@ -17,7 +16,7 @@ router.get('/', function(req, res) {
           }
         }
       }
-      console.log(sessions);
+
       if(req.isJson) {
         res.send(JSON.stringify( sessions ));
       } else {
@@ -48,7 +47,7 @@ router.get('/new/:slug', function(req, res) {
 
 router.post('/new/:slug', function(req, res) {
   var collection = req.db.get('sessions');
-console.log(req.body);
+
   collection.insert(
   {
       "game_id" : req.body.game_id,
