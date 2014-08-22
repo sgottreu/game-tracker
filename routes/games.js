@@ -7,10 +7,14 @@ router.get('/', function(req, res) {
   var collection = req.db.get('games');
 
   collection.find({}, {},function(e,games){
+    if(req.isJson) {
+      res.send(JSON.stringify( games ));
+    } else {
       res.render('games', {
           games : games,
           title: 'Game List'
       });
+    }
   });
 });
 

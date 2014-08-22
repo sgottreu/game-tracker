@@ -1,19 +1,18 @@
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
-a {
-  color: #00b7ff;
+h2 {
+  text-align: center;
 }
 div.left {
   float: left;
   display: inline-block;
 }
-div.left .hidden,
+div.left .no-show,
 .txt_field {
   display: block;
 }
-#points span.hidden {
+#points span.no-show {
   display: none;
 }
 #points span {
@@ -56,7 +55,7 @@ div.submitBtn {
   .scoring {
     display: block;
   }
-  #points span.hidden {
+  #points span.no-show {
     display: block;
   }
   #points div.scoring_labels {

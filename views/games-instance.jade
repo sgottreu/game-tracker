@@ -5,23 +5,37 @@ block content
   form#formAddGameInstance(name="addInstance",method="post",action="/games/instance/#{games[0].slug}")
     h2
       | #{games[0].title}
-    div
-      <input type="date" name="game_date">
-      input(type="hidden" name="game_id" value="#{games[0]._id}")
 
-    div
-      <select id="numPlayers" name="numPlayers">
-      <option>Players</option>
-      </select>
+    div.panel.panel-default
+      div.panel-heading
+        h3.panel-title
+          | Date
+      div.panel-body
+        input(type="date" name="game_date")
+        input(type="hidden" name="game_id" value="#{games[0]._id}")
 
-    div#points
+    div.panel.panel-default
+      div.panel-heading
+        h3.panel-title
+          | Number of Players
+      div.panel-body
+        <select id="numPlayers" name="numPlayers">
+        <option># of Players</option>
+        </select>
+
+    div.panel.panel-default
+      div.panel-heading
+        h3.panel-title
+          | Scoring Sheet
+      div.panel-body#points
 
     div.submitBtn
-      button#btnSubmit(type="submit") submit
+      button#btnSubmit(type="submit" class="btn btn-primary") submit
   
   script(src='/javascripts/builder.js')
 
   script
     | (function($){
-    |   getGameInfo('#{games[0].slug}')
+    |   getGameInfo('#{games[0].slug}');
+    |   getPlayers();
     | })(jQuery);

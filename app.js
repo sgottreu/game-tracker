@@ -36,7 +36,6 @@ app.use(function(req,res,next){
 });
 
 
-
 //Setting up for json
 app.use(function(req,res,next){
   req.isJson = false;
