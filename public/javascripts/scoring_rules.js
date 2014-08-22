@@ -49,7 +49,7 @@
 
   function populateScoringRows(slug,numRows) {
     var request = $.ajax({
-      url: "/games/"+slug,
+      url: "/games/"+slug+'.json',
       type: "GET",
       dataType: "json"
     });

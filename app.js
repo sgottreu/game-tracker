@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var games = require('./routes/games');
+var players = require('./routes/players');
 
 var app = express();
 
@@ -40,8 +41,9 @@ app.use(function(req,res,next){
 app.use(function(req,res,next){
   req.isJson = false;
 
-  if(req.url.substring(req.url.length-5, req.url.length) == '.json' 
-    || req.headers.accept.indexOf('application/json') >= 0) {
+  // if(req.url.substring(req.url.length-5, req.url.length) == '.json' 
+  //   || req.headers.accept.indexOf('application/json') >= 0) {
+  if(req.url.substring(req.url.length-5, req.url.length) == '.json') {
       req.url = req.url.replace('.json', '');
       req.isJson = true;
       res.set('Content-Type', 'application/json');
@@ -50,10 +52,12 @@ app.use(function(req,res,next){
 });
 
 app.use('/', routes);
-//app.use('/users', users);
-app.use('/games', games);
 
+app.use('/games', games);
 app.use('/game/:slug', games);
+
+app.use('/players', players);
+app.use('/players/:username', players);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {

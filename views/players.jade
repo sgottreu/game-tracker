@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  h1="List of Players"
+
+  ul
+  each player, i in players
+    li
+      a(href="/players/#{player.username}")
+        | #{player.last_name}, #{player.first_name}
+

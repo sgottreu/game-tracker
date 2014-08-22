@@ -30,7 +30,7 @@ div.left .hidden,
 }
 div.submitBtn {
   display: block;
-  float: clear;
+  clear: both;
 }
 .score_label {
   width: 150px;

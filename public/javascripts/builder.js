@@ -101,7 +101,7 @@ var gameData;
 
 function getGameInfo(slug) {
     var request = $.ajax({
-      url: "/games/"+slug,
+      url: "/games/"+slug+'.json',
       type: "GET",
       dataType: "json"
     });

@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  h1 #{player.last_name}, #{player.first_name}
+  p Username: #{player.username}
+
+  h2 Games Played
+
+  a(href="/players/update/#{player.username}")= "Update"

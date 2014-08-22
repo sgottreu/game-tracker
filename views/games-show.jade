@@ -4,5 +4,7 @@ block content
   h1 #{game.title}
   p Players: #{game.minPlayers} -     #{game.maxPlayers}
 
-
-  a(href="/games/update/#{game.slug}")= "Update"
+  p
+    a(href="/games/instance/#{game.slug}")= "Score Game"
+  p
+    a(href="/games/update/#{game.slug}")= "Update"

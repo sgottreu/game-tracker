@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  h1="Add A Player"
+
+  form#formAddPlayer(name="addplayer",method="post",action="/players/new")
+    div
+      input#inputfirstName(type="text", placeholder="First Name", name="first_name")
+    div
+      input#inputlastName(type="text", placeholder="Last Name", name="last_name")
+    div
+      input#inputUsername(type="text", placeholder="Username", name="username")
+    div
+      button#btnSubmit(type="submit") submit
