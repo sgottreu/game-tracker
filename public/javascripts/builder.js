@@ -52,7 +52,7 @@
           //tabIndex = parseFloat(numPlayers)+4+(parseFloat(numPlayers) *x);
           
           html += '<span class="'+value.slug+x+' txt_field">';
-          html += '<input type="'+iType+'" class="col'+x+'" tabIndex="'+tabIndex+'" data-cols="'+x+'" id="'+value.slug+x+'" name="'+value.slug+'"></span>';
+          html += '<input type="number" class="col'+x+'" tabIndex="'+tabIndex+'" data-cols="'+x+'" id="'+value.slug+x+'" name="'+value.slug+'"></span>';
           // html
           
           html += '</span>';
@@ -138,7 +138,7 @@ function getGameInfo(slug) {
     request.done(function( data ) {
       if(data.slug != undefined) {
         gameData = data;
-        var html = '<option>Players</option>';
+        var html = '<option># of Players</option>';
         for(var x = parseFloat(data.minPlayers); x <= parseFloat(data.maxPlayers);x++) {
           html += '<option value="'+x+'">'+x+'</option>';
         }

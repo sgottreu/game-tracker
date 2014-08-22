@@ -4,7 +4,8 @@ body
 h2
   text-align:center
 
-
+.panel-heading, .panel-body
+  text-align: center
 
 div.left
   float:left
@@ -15,17 +16,42 @@ div.left .no-show, .txt_field
 
 #points span.no-show
   display:none
+  text-align: center
+  min-height:40px
+  padding: 10px 0px;
 
-#points span 
+#points 
+  margin: 0 auto;
+  padding: 10px 25%;
+
+.player_score_wrapper
   width: 150px
   display: inline-block
 
+span.scoring_label 
+  vertical-align: bottom
+  width: 175px
+  padding: 10px
+  display: inline-block
+
+
 #points span.scoring_label, #points .player_score_wrapper
   display:block
-  min-height:30px
+  min-height:50px
+
+.player_score_wrapper input, .player_score_wrapper select 
+  width: 150px
+  height:40px
+
+span.scoring_label, span.no-show
+  font-size: 1.25em
+
+#numPlayers
+  width: 150px
+  height:40px
 
 .instance.point_totals
-  min-height:30px
+  min-height:50px
 
 div.submitBtn
   display:block
