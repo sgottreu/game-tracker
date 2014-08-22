@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  h1="List of Gaming Sessions"
+
+  ul
+  each session, i in sessions
+    li
+      a(href="/sessions/#{session._id}")= session.game.title
+

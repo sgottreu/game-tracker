@@ -2,24 +2,24 @@ extends layout
 
 block content
 
-  form#formAddGameInstance(name="addInstance",method="post",action="/games/instance/#{games[0].slug}")
+  form#formAddGameInstance(name="addInstance",method="post",action="/sessions/new/#{game.slug}")
     h2
-      | #{games[0].title}
+      | #{game.title}
 
     div.panel.panel-default
       div.panel-heading
         h3.panel-title
           | Date
       div.panel-body
-        input(type="date" name="game_date")
-        input(type="hidden" name="game_id" value="#{games[0]._id}")
+        input(type="date" id="session_date" name="session_date")
+        input(type="hidden" name="game_id" value="#{game._id}")
 
     div.panel.panel-default
       div.panel-heading
         h3.panel-title
           | Number of Players
       div.panel-body
-        <select id="numPlayers" name="numPlayers">
+        <select id="num_players" name="num_players">
         <option># of Players</option>
         </select>
 
@@ -27,15 +27,16 @@ block content
       div.panel-heading
         h3.panel-title
           | Scoring Sheet
-      div.panel-body#points
+      div.panel-body
+        div#points
 
     div.submitBtn
-      button#btnSubmit(type="submit" class="btn btn-primary") submit
+      button#btnSubmit(type="submit" class="btn btn-lg btn-primary") submit
   
   script(src='/javascripts/builder.js')
 
   script
     | (function($){
-    |   getGameInfo('#{games[0].slug}');
+    |   getGameInfo('#{game.slug}');
     |   getPlayers();
     | })(jQuery);

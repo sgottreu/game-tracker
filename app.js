@@ -4,10 +4,12 @@ var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var async = require("async");
 
 var routes = require('./routes/index');
 var games = require('./routes/games');
 var players = require('./routes/players');
+var sessions = require('./routes/sessions');
 
 var app = express();
 
@@ -28,6 +30,10 @@ var mongo = require('mongodb');
 var monk = require('monk');
 var db = monk('mongodb://game-tracker:3t8th52R7S*utr+mUtUc@kahana.mongohq.com:10026/game-tracker');
 
+app.use(function(req,res,next){
+    req.async = async;  
+    next();
+});
 
 // Make our db accessible to our router
 app.use(function(req,res,next){
@@ -54,6 +60,9 @@ app.use('/', routes);
 
 app.use('/games', games);
 app.use('/game/:slug', games);
+
+app.use('/sessions', sessions);
+app.use('/sessions/new/:slug', sessions);
 
 app.use('/players', players);
 app.use('/players/:username', players);

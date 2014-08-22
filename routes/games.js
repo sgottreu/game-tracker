@@ -50,16 +50,16 @@ router.post('/new', function(req, res) {
   });
 });
 
-router.get('/instance/:slug', function(req, res) {
-  var collection = req.db.get('games');
+// router.get('/instance/:slug', function(req, res) {
+//   var collection = req.db.get('games');
 
-  collection.find({ 'slug' : req.params.slug }, {},function(e,games){
-      res.render('games-instance', {
-          "games" : games,
-          title: games[0].title
-      });
-  });
-});
+//   collection.find({ 'slug' : req.params.slug }, {},function(e,games){
+//       res.render('games-instance', {
+//           "games" : games,
+//           title: games[0].title
+//       });
+//   });
+// });
 
 router.get('/update/:slug', function(req, res) {
   var collection = req.db.get('games');
