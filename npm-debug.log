@@ -1,31 +1,26 @@
 0 info it worked if it ends with ok
-1 verbose cli [ '/usr/local/Cellar/node/0.8.21/bin/node',
-1 verbose cli   '/usr/local/bin/npm',
-1 verbose cli   'start' ]
-2 info using npm@1.2.11
-3 info using node@v0.8.21
-4 verbose read json /Users/sgottreu/Sites/game-tracker/package.json
-5 verbose run-script [ 'prestart', 'start', 'poststart' ]
-6 info prestart game-tracker@0.0.1
-7 info start game-tracker@0.0.1
-8 verbose unsafe-perm in lifecycle true
-9 silly exec sh "-c" "node ./bin/www"
-10 silly sh,-c,node ./bin/www,/Users/sgottreu/Sites/game-tracker spawning
-11 info game-tracker@0.0.1 Failed to exec start script
-12 error game-tracker@0.0.1 start: `node ./bin/www`
-12 error `sh "-c" "node ./bin/www"` failed with 1
-13 error Failed at the game-tracker@0.0.1 start script.
-13 error This is most likely a problem with the game-tracker package,
-13 error not with npm itself.
-13 error Tell the author that this fails on your system:
-13 error     node ./bin/www
-13 error You can get their info via:
-13 error     npm owner ls game-tracker
-13 error There is likely additional logging output above.
-14 error System Darwin 12.5.0
-15 error command "/usr/local/Cellar/node/0.8.21/bin/node" "/usr/local/bin/npm" "start"
-16 error cwd /Users/sgottreu/Sites/game-tracker
-17 error node -v v0.8.21
-18 error npm -v 1.2.11
-19 error code ELIFECYCLE
-20 verbose exit [ 1, true ]
+1 verbose cli [ 'node', '/usr/local/bin/npm', 'start' ]
+2 info using npm@1.4.3
+3 info using node@v0.10.26
+4 verbose run-script [ 'prestart', 'start', 'poststart' ]
+5 info prestart game-tracker@0.0.1
+6 info start game-tracker@0.0.1
+7 verbose unsafe-perm in lifecycle true
+8 info game-tracker@0.0.1 Failed to exec start script
+9 error game-tracker@0.0.1 start: `node ./bin/www`
+9 error Exit status 8
+10 error Failed at the game-tracker@0.0.1 start script.
+10 error This is most likely a problem with the game-tracker package,
+10 error not with npm itself.
+10 error Tell the author that this fails on your system:
+10 error     node ./bin/www
+10 error You can get their info via:
+10 error     npm owner ls game-tracker
+10 error There is likely additional logging output above.
+11 error System Darwin 12.5.0
+12 error command "node" "/usr/local/bin/npm" "start"
+13 error cwd /Users/scottgottreu/Sites/game-tracker
+14 error node -v v0.10.26
+15 error npm -v 1.4.3
+16 error code ELIFECYCLE
+17 verbose exit [ 1, true ]

@@ -18,9 +18,6 @@ router.get('/', function(req, res) {
   });
 });
 
-
-
-
 router.get('/new', function(req, res) {
   res.render('games-new', { title: 'Add a Game' });
 });
@@ -139,6 +136,51 @@ router.get('/:slug', function(req, res) {
 });
 
 module.exports = router;
+
+module.exports.getPoints = function(value, row)
+{
+
+  if( !isNaN(parseFloat(value))) {
+    var rules = row.rules;
+    var points = row.points;
+
+    for(var x =0; x < rules.length;x++) {
+      if( !isNaN(parseFloat( rules[x] )) && parseFloat( rules[x] ) == parseFloat(value) ) {
+        return parseFloat(points[x]);
+      }
+      if(rules[x].substring(rules[x].length-1, rules[x].length) == '+') {
+        if(rules[x]=='+' && value != '') {
+          var eq = value+' '+points[0];
+          return eval(eq);
+        }
+
+        var incr = parseFloat(rules[x].replace("+",""));
+        if(parseFloat(value) >= incr) {
+          return parseFloat(points[x]);
+        }
+      }
+      if(rules[x].indexOf('..') >= 0) {
+        var range = rules[x].split("..");
+        for(var i = parseFloat(range[0]); i <= parseFloat(range[1]);i++) {
+          if(i.toString() == value) {
+            return parseFloat(points[x]);
+          }
+        }
+      }
+      //Multiply by the value
+      if(rules[x]=='*' && value != '') {
+        var eq = value+' '+points[0];
+        return eval(eq);
+      }
+      // Raise to a power
+      if(rules[x]=='^' && value != '') {
+        return Math.pow(value,points[0]);
+      }
+    }
+  }
+
+  return 0;
+}
 
 
 function buildRules(rules)

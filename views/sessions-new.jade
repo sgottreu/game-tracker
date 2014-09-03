@@ -36,6 +36,7 @@ block content
   script(src='/javascripts/builder.js')
 
   script
+    | var getPoints = !{getPoints};
     | (function($){
     |   getGameInfo('#{game.slug}');
     |   getPlayers();

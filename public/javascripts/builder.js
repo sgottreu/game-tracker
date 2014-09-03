@@ -96,7 +96,7 @@
           var total = 0, step = 0;
 
           $.each($("input."+$(this)[0].className), function(i, val) {
-            step = getPoints(this.value,i);
+            step = getPoints(this.value,gameData.scoring[i]);
             total += step;
           });
           var x = $(this).data('cols');
@@ -118,40 +118,6 @@
 
 })(jQuery);
 
-var gameData;
-var Players;
-
-function getGameInfo(slug) {
-    var request = $.ajax({
-      url: "/games/"+slug+'.json',
-      type: "GET",
-      dataType: "json"
-    });
-     
-    request.done(function( data ) {
-      if(data.slug != undefined) {
-        gameData = data;
-        var html = '<option># of Players</option>';
-        for(var x = parseFloat(data.minPlayers); x <= parseFloat(data.maxPlayers);x++) {
-          html += '<option value="'+x+'">'+x+'</option>';
-        }
-        $("#num_players").html(html);
-      }
-    });
-}
-
-function getPlayers() {
-    var request = $.ajax({
-      url: '/players.json',
-      type: "GET",
-      dataType: "json"
-    });
-     
-    request.done(function( data ) {   
-      Players = data;
-
-    });
-}
 
 function focusPlayer(col) {
   $(".playercol").hide();
@@ -159,47 +125,3 @@ function focusPlayer(col) {
   $(".player"+col+' .player_score_wrapper .col'+col)[0].focus();
 }
 
-function getPoints(value, row)
-{
-
-  if( !isNaN(parseFloat(value))) {
-    var rules = gameData.scoring[row].rules;
-    var points = gameData.scoring[row].points;
-
-    for(var x =0; x < rules.length;x++) {
-      if( !isNaN(parseFloat( rules[x] )) && parseFloat( rules[x] ) == parseFloat(value) ) {
-        return parseFloat(points[x]);
-      }
-      if(rules[x].substring(rules[x].length-1, rules[x].length) == '+') {
-        if(rules[x]=='+' && value != '') {
-          var eq = value+' '+points[0];
-          return eval(eq);
-        }
-
-        var incr = parseFloat(rules[x].replace("+",""));
-        if(parseFloat(value) >= incr) {
-          return parseFloat(points[x]);
-        }
-      }
-      if(rules[x].indexOf('..') >= 0) {
-        var range = rules[x].split("..");
-        for(var i = parseFloat(range[0]); i <= parseFloat(range[1]);i++) {
-          if(i.toString() == value) {
-            return parseFloat(points[x]);
-          }
-        }
-      }
-      //Multiply by the value
-      if(rules[x]=='*' && value != '') {
-        var eq = value+' '+points[0];
-        return eval(eq);
-      }
-      // Raise to a power
-      if(rules[x]=='^' && value != '') {
-        return Math.pow(value,points[0]);
-      }
-    }
-  }
-
-  return 0;
-}

@@ -1,0 +1,32 @@
+extends layout
+
+block content
+
+  form#formAddGameInstance(name="addInstance",method="post",action="/sessions/new/#{game.slug}")
+    h2
+      | #{game.title}
+
+    div.panel.panel-default
+      div.panel-heading
+        h3.panel-title
+          | Game Info
+      div.panel-body
+        | Date Played: #{session.session_date}
+        | <br>
+        | Number of Players: #{session.num_players}
+
+    div.panel.panel-default
+      div.panel-heading
+        h3.panel-title
+          | Scoring Sheet
+      div.panel-body
+        div#points
+  
+  script(src='/javascripts/session_listing.js')
+
+  script
+    | (function($){
+    |   getPlayers();
+    |   var session = !{JSON.stringify(session)}, game =!{JSON.stringify(game)};
+    |   session_listing(session, game);
+    | })(jQuery);

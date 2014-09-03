@@ -37,28 +37,39 @@ router.get('/new/:slug', function(req, res) {
   var gameCollection = req.db.get('games');
 
   var collection = req.db.get('sessions');
+  var expGames = require('./games.js');
+  
+console.log(expGames.getPoints);
 
   gameCollection.find({ 'slug' : req.params.slug }, {},function(e,games){
       res.render('sessions-new', {
-          game: games[0]
+          game: games[0],
+          getPoints: expGames.getPoints
       });
   });
 });
 
 router.post('/new/:slug', function(req, res) {
-  var slug = '', _id = '', players = {};
+  var slug = '', _id = '', players = {}, total = 0;
   var gameCollection = req.db.get('games');
+
+  var expGames = require('./games.js');
 
   gameCollection.find({ 'slug' : req.params.slug }, {},function(e,games){
     var collection = req.db.get('sessions');
     for( var x=0;x<req.body.player.length;x++) {
       _id = req.body.player[x];
-      players[_id] = new Object;
+      players[_id] = { info: {}, points: {}, score: 0 };
+      total = 0;
 
       for( var y=0;y<games[0].scoring.length;y++) {
         slug = games[0].scoring[y].slug;
-        players[_id][slug] = req.body[slug][x];
-      }      
+        players[_id].points[slug] = {};
+        players[_id].points[slug].count = req.body[slug][x];
+        players[_id].points[slug].points = expGames.getPoints(req.body[slug][x], games[0].scoring[y]);
+        total += players[_id].points[slug].points;
+      }    
+      players[_id].score = total;  
     }
 
     collection.insert(
