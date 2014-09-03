@@ -83,5 +83,26 @@ router.post('/new/:slug', function(req, res) {
   });
 });
 
+
+router.get('/:id', function(req, res) {
+  var collection = req.db.get('sessions');
+
+  collection.findOne({ '_id' : req.params.id }, {},function(e,session){
+    var gameCollection = req.db.get('games');
+
+    gameCollection.findOne({ '_id' : session.game_id }, {},function(e,game){
+      if(req.isJson) {
+        var json = { session: session, game: game };
+        res.send(JSON.stringify( json ));
+      } else {
+        res.render('sessions-show', {
+            session : session,
+            game: game
+        });
+      }
+    });
+  });
+});
+
 module.exports = router;
 

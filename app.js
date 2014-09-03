@@ -62,6 +62,7 @@ app.use('/games', games);
 app.use('/game/:slug', games);
 
 app.use('/sessions', sessions);
+app.use('/sessions/:id', sessions);
 app.use('/sessions/new/:slug', sessions);
 
 app.use('/players', players);
