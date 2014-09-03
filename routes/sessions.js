@@ -46,26 +46,40 @@ router.get('/new/:slug', function(req, res) {
 });
 
 router.post('/new/:slug', function(req, res) {
-  var collection = req.db.get('sessions');
+  var slug = '', _id = '', players = {};
+  var gameCollection = req.db.get('games');
 
-  collection.insert(
-  {
-      "game_id" : req.body.game_id,
-      "num_players" : req.body.num_players,
-      "session_date" : req.body.session_date,
-      players: req.body.player 
-  },
-  function (err, doc) {
-    if (err) {
-        // If it failed, return error
-        res.send("There was a problem adding the information to the database.");
+  gameCollection.find({ 'slug' : req.params.slug }, {},function(e,games){
+    var collection = req.db.get('sessions');
+    for( var x=0;x<req.body.player.length;x++) {
+      _id = req.body.player[x];
+      players[_id] = new Object;
+
+      for( var y=0;y<games[0].scoring.length;y++) {
+        slug = games[0].scoring[y].slug;
+        players[_id][slug] = req.body[slug][x];
+      }      
     }
-    else {
-        // If it worked, set the header so the address bar doesn't still say /adduser
-        res.location("sessions");
-        // And forward to success page
-        res.redirect("/sessions");
-    }
+
+    collection.insert(
+    {
+        "game_id" : req.body.game_id,
+        "num_players" : req.body.num_players,
+        "session_date" : req.body.session_date,
+        players: players
+    },
+    function (err, doc) {
+      if (err) {
+          // If it failed, return error
+          res.send("There was a problem adding the information to the database.");
+      }
+      else {
+          // If it worked, set the header so the address bar doesn't still say /adduser
+          res.location("sessions");
+          // And forward to success page
+          res.redirect("/sessions");
+      }
+    });
   });
 });
 

@@ -85,9 +85,11 @@ router.post('/update/:slug', function(req, res) {
 
       var points = (req.body.score_points != undefined) ? buildPoints(req.body.score_points[x]) : [[]];
 
+      var title = (req.body.score_title != undefined) ? req.body.score_title[x] : '';
+
       var scoring_row = { 
-        title: req.body.score_title[x], 
-        slug: req.body.score_title[x].toLowerCase().replace(" ",'-'),
+        title: title, 
+        slug: title.toLowerCase().replace(" ",'-'),
         rules: rules, 
         points: points 
       };

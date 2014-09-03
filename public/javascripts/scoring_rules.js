@@ -29,7 +29,7 @@
       $("#score_title1").focus();
       
       $(".score_title").on({
-          keypress: function(e) {
+          keyup: function(e) {
             if (e.keyCode == 13) {
               e.preventDefault();
             }
@@ -55,7 +55,7 @@
     });
      
     request.done(function( data ) {
-      if(data.slug != undefined) {
+      if(data.scoring != undefined) {
         $.each(data.scoring, function(i, row) {
           var curr_row = i+1;
           if(row.title != '' && row.title != undefined) {

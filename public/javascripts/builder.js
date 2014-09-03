@@ -45,11 +45,12 @@
         html += '</span>';
 
         $.each(gameData.scoring, function(i, value) {
+          var xType = (value.points[0] == '') ? 'text' : 'number';
           html += '<span class="player_score_wrapper">';
 
           html += '<span class="no-show '+value.slug+'_label">'+value.title+'</span>';
           html += '<span class="'+value.slug+x+' txt_field">';
-          html += '<input type="number" class="col'+x+'" tabIndex="'+tabIndex+'" data-cols="'+x+'" id="'+value.slug+x+'" name="'+value.slug+'"></span>';
+          html += '<input type="'+xType+'" class="col'+x+'" tabIndex="'+tabIndex+'" data-cols="'+x+'" id="'+value.slug+x+'" name="'+value.slug+'"></span>';
 
           html += '</span>';
           tabIndex++;
@@ -188,9 +189,14 @@ function getPoints(value, row)
           }
         }
       }
+      //Multiply by the value
       if(rules[x]=='*' && value != '') {
         var eq = value+' '+points[0];
         return eval(eq);
+      }
+      // Raise to a power
+      if(rules[x]=='^' && value != '') {
+        return Math.pow(value,points[0]);
       }
     }
   }

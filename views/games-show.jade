@@ -5,6 +5,6 @@ block content
   p Players: #{game.minPlayers} -     #{game.maxPlayers}
 
   p
-    a(href="/games/instance/#{game.slug}")= "Score Game"
+    a(href="/sessions/new/#{game.slug}")= "Score Game"
   p
     a(href="/games/update/#{game.slug}")= "Update"
