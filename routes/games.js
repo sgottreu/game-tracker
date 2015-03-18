@@ -4,7 +4,7 @@ var router = express.Router();
 
 
 router.get('/', function(req, res) {
-  var collection = req.db.get('games');
+  var collection = req.db.get('game-traker_games');
 
   collection.find({}, {},function(e,games){
     if(req.isJson) {
@@ -23,7 +23,7 @@ router.get('/new', function(req, res) {
 });
 
 router.post('/new', function(req, res) {
-  var collection = req.db.get('games');
+  var collection = req.db.get('game-traker_games');
 
   collection.insert(
   {
@@ -48,7 +48,7 @@ router.post('/new', function(req, res) {
 });
 
 // router.get('/instance/:slug', function(req, res) {
-//   var collection = req.db.get('games');
+//   var collection = req.db.get('game-traker_games');
 
 //   collection.find({ 'slug' : req.params.slug }, {},function(e,games){
 //       res.render('games-instance', {
@@ -59,7 +59,7 @@ router.post('/new', function(req, res) {
 // });
 
 router.get('/update/:slug', function(req, res) {
-  var collection = req.db.get('games');
+  var collection = req.db.get('game-traker_games');
 
   collection.find({ 'slug' : req.params.slug }, {},function(e,games){
       res.render('games-update', {
@@ -70,7 +70,7 @@ router.get('/update/:slug', function(req, res) {
 });
 
 router.post('/update/:slug', function(req, res) {
-  var collection = req.db.get('games');
+  var collection = req.db.get('game-traker_games');
 
   var numScores = parseFloat(req.body.numScores);
   var scoring = [];
@@ -120,7 +120,7 @@ router.post('/update/:slug', function(req, res) {
 });
 
 router.get('/:slug', function(req, res) {
-  var collection = req.db.get('games');
+  var collection = req.db.get('game-traker_games');
 
   collection.find({ 'slug' : req.params.slug }, {},function(e,games){
 

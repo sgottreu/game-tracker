@@ -22,6 +22,17 @@ block content
       input#inputNumScores(type="number", placeholder="numScores", name="numScores" value="#{games[0].numScores || 0}")
 
     div#scoringRulesBox
+      div
+        span.score_label.scoring.header 
+          | Scoring Item
+        span.score_title.scoring.header
+          | Scoring Label
+        span.score_rule.scoring.header
+          | Scoring Rule
+        span.score_points.scoring.header
+          | Scoring Points
+
+      div.results
 
     div
       button#btnSubmit(type="submit" tabIndex="6") submit

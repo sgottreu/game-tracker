@@ -12,7 +12,7 @@
 })(jQuery);
 
   function createScoringRows(numRows) {
-      $("#scoringRulesBox").html('');
+      $("#scoringRulesBox .results").html('');
       var html = '';
       var iType = '';
 
@@ -25,7 +25,7 @@
 
         html += "</div>";
       }
-      $("#scoringRulesBox").html(html);
+      $("#scoringRulesBox .results").html(html);
       $("#score_title1").focus();
       
       $(".score_title").on({

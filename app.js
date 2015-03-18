@@ -5,11 +5,13 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var async = require("async");
+fs   = require('fs');
 
 var routes = require('./routes/index');
 var games = require('./routes/games');
 var players = require('./routes/players');
 var sessions = require('./routes/sessions');
+var yaml = require('js-yaml');
 
 var app = express();
 
@@ -28,7 +30,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 // New Code
 var mongo = require('mongodb');
 var monk = require('monk');
-var db = monk('mongodb://game-tracker:3t8th52R7S*utr+mUtUc@kahana.mongohq.com:10026/game-tracker');
+
+var yml_config = yaml.safeLoad(fs.readFileSync('mongodb.yml', 'utf8'));
+
+var db = monk('mongodb://'+yml_config.mongolab);
 
 app.use(function(req,res,next){
     req.async = async;  

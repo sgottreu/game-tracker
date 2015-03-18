@@ -4,7 +4,7 @@ var router = express.Router();
 
 
 router.get('/', function(req, res) {
-  var collection = req.db.get('players');
+  var collection = req.db.get('game-traker_players');
 
   collection.find({}, {},function(e,players){
     if(req.isJson) {
@@ -26,7 +26,7 @@ router.get('/new', function(req, res) {
 });
 
 router.post('/new', function(req, res) {
-  var collection = req.db.get('players');
+  var collection = req.db.get('game-traker_players');
 
   collection.insert(
   {
@@ -49,7 +49,7 @@ router.post('/new', function(req, res) {
 });
 
 router.get('/update/:username', function(req, res) {
-  var collection = req.db.get('players');
+  var collection = req.db.get('game-traker_players');
 
   collection.find({ 'username' : req.params.username }, {},function(e,players){
       res.render('players-update', {
@@ -59,7 +59,7 @@ router.get('/update/:username', function(req, res) {
 });
 
 router.post('/update/:username', function(req, res) {
-  var collection = req.db.get('players');
+  var collection = req.db.get('game-traker_players');
 
   collection.updateById( req.body._id,
   {
@@ -82,7 +82,7 @@ router.post('/update/:username', function(req, res) {
 });
 
 router.get('/:username', function(req, res) {
-  var collection = req.db.get('players');
+  var collection = req.db.get('game-traker_players');
 
   collection.find({ 'username' : req.params.username }, {},function(e,players){
 
