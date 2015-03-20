@@ -11,7 +11,6 @@ var routes = require('./routes/index');
 var games = require('./routes/games');
 var players = require('./routes/players');
 var sessions = require('./routes/sessions');
-var yaml = require('js-yaml');
 
 var app = express();
 
@@ -31,9 +30,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 var mongo = require('mongodb');
 var monk = require('monk');
 
-var yml_config = yaml.safeLoad(fs.readFileSync('mongodb.yml', 'utf8'));
+// Run mongodb='CONFIG_STRING' node app.js
 
-var db = monk('mongodb://'+yml_config.mongolab);
+var mongodb_config = process.env.mongodb
+console.log(mongodb_config);
+var db = monk('mongodb://'+mongodb_config);
 
 app.use(function(req,res,next){
     req.async = async;  
